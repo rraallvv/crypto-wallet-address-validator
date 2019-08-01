@@ -382,6 +382,17 @@ describe('WAValidator.validate()', function () {
             valid('xrb_1q79ahdr36uqn38p5tp5sqwkn73rnpj1k8obtuetdbjcx37d5gahhd1u9cuh', 'nano');
             valid('nano_1q79ahdr36uqn38p5tp5sqwkn73rnpj1k8obtuetdbjcx37d5gahhd1u9cuh', 'nano');
         });
+
+        it('should return true for correct nimiq addresses', function () {
+            valid('NQ09 QCG8 HG0T NEBP 4DJN 81XV CJU2 9LY8 BVNT', 'nimiq');
+            valid('nq09 qcg8 hg0t nebp 4djn 81xv cju2 9ly8 bvnt', 'nimiq');
+            valid('NQ09QCG8HG0TNEBP4DJN81XVCJU29LY8BVNT', 'nimiq');
+            valid('nq09qcg8hg0tnebp4djn81xvcju29ly8bvnt', 'nimiq');
+            valid('NQ09 QCG8 HG0T NEBP 4DJN 81XV CJU2 9LY8 BVNT', 'NIM');
+            valid('nq09 qcg8 hg0t nebp 4djn 81xv cju2 9ly8 bvnt', 'NIM');
+            valid('NQ09QCG8HG0TNEBP4DJN81XVCJU29LY8BVNT', 'NIM');
+            valid('nq09qcg8hg0tnebp4djn81xvcju29ly8bvnt', 'NIM');
+        });
     });
 
     describe('invalid results', function () {
@@ -594,6 +605,16 @@ describe('WAValidator.validate()', function () {
             invalid('nano_1f5e4w33ndqbkx4bw5jtp13kp5xghebfxcmw9hdt1f7goid1s4373w6tjdgu', 'nano');
             invalid('xrb_1111111112111111111111111111111111111111111111111111hifc8npp', 'nano');
             invalid('nano_111111111111111111111111111111111111111111111111111hifc8npp', 'nano');
+        });
+
+        it('should return false for incorrect nimiq addresses', function () {
+            commonTests('nimiq');
+            invalid('NQ09 QCG8 HG0T NEBP 4DJN 81XV CJU2 9LY8 BVNX', 'nimiq');
+            invalid('NQ09QCG8HG0TNEBP4DJN81XVCJU29LY8BVNX', 'nimiq');
+            invalid('09 QCG8 HG0T NEBP 4DJN 81XV CJU2 9LY8 BVNT', 'nimiq');
+            invalid('09 qcg8 hg0t nebp 4djn 81xv cju2 9ly8 bvnt', 'nimiq');
+            invalid('09QCG8HG0TNEBP4DJN81XVCJU29LY8BVNT', 'nimiq');
+            invalid('09qcg8hg0tnebp4djn81xvcju29ly8bvnt', 'nimiq');
         });
     });
 });

@@ -71,6 +71,8 @@ npm install wallet-address-validator
 * NEO/NEO, `'NEO'` or `'NEO'`
 * NeoGas/GAS, `'neogas'` or `'GAS'`
 
+* Nimiq/NIM, `'nimiq'` or `'NIM'`
+
 * Peercoin/PPCoin/PPC, `'peercoin'` or `'PPC'`
 * Primecoin/XPM, `'primecoin'` or `'XPM'`
 * Protoshares/PTS, `'protoshares'` or `'PTS'`

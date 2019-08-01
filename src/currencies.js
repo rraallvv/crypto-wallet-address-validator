@@ -3,6 +3,7 @@ var ETHValidator = require('./ethereum_validator');
 var BTCValidator = require('./bitcoin_validator');
 var XMRValidator = require('./monero_validator');
 var NANOValidator = require('./nano_validator');
+var IBANValidator = require('./iban_validator');
 
 // defines P2PKH and P2SH address types for standard (prod) and testnet networks
 var CURRENCIES = [{
@@ -209,6 +210,12 @@ var CURRENCIES = [{
     name: 'raiblocks',
     symbol: 'xrb',
     validator: NANOValidator,
+},{
+    name: 'nimiq',
+    symbol: 'nim',
+    countryCode: 'NQ',
+    length: 36,
+    validator: IBANValidator
 }];
 
 
