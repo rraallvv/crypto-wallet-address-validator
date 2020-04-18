@@ -1,7 +1,9 @@
 {
-  "name": "wallet-address-validator",
-  "description": "Wallet address validator for Bitcoin and other Altcoins.",
+  "name": "public-address-validator",
+  "description": "Public address validator for Nimiq and other cryptocurrencyes.",
   "keywords": [
+    "nimiq",
+    "nim",
     "btc",
     "bitcoin",
     "bitcoin cash",
@@ -26,27 +28,26 @@
     "validator",
     "vertcoin",
     "nano",
-    "nimiq",
     "raiblocks",
     "javascript",
     "browser",
     "nodejs"
   ],
   "version": "0.2.4",
-  "author": "Tomek Kolasa <tomek@kolasa.me>",
-  "homepage": "https://github.com/ognus/wallet-address-validator",
+  "author": "Rhody Lugo <rhodylugo@gmail.com>",
+  "homepage": "https://github.com/rraallvv/public-address-validator",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ognus/wallet-address-validator.git"
+    "url": "https://github.com/rraallvv/public-address-validator"
   },
-  "main": "src/wallet_address_validator",
+  "main": "src/public_address_validator",
   "engines": {
     "node": "*"
   },
   "scripts": {
-    "bundle": "browserify src/wallet_address_validator.js --standalone WAValidator --outfile dist/wallet-address-validator.js",
-    "minify": "uglifyjs -c -m -o dist/wallet-address-validator.min.js -- dist/wallet-address-validator.js",
+    "bundle": "browserify src/public_address_validator.js --standalone WAValidator --outfile dist/public-address-validator.js",
+    "minify": "uglifyjs -c -m -o dist/public-address-validator.min.js -- dist/public-address-validator.js",
     "test:node": "mocha test",
     "test:browser": "karma start",
     "test": "npm run test:node && npm run test:browser",

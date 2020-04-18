@@ -5770,7 +5770,7 @@ module.exports = {
     }
 };
 
-},{"./bitcoin_validator":8,"./ethereum_validator":19,"./iban_validator":20,"./monero_validator":21,"./nano_validator":22,"./ripple_validator":23}],19:[function(require,module,exports){
+},{"./bitcoin_validator":8,"./ethereum_validator":19,"./iban_validator":20,"./monero_validator":21,"./nano_validator":22,"./ripple_validator":24}],19:[function(require,module,exports){
 var cryptoUtils = require('./crypto/utils');
 
 module.exports = {
@@ -5932,6 +5932,23 @@ module.exports = {
 };
 
 },{"./crypto/utils":17,"base-x":1}],23:[function(require,module,exports){
+var currencies = require('./currencies');
+
+var DEFAULT_CURRENCY_NAME = 'nimiq';
+
+module.exports = {
+    validate: function (address, currencyNameOrSymbol, networkType) {
+        var currency = currencies.getByNameOrSymbol(currencyNameOrSymbol || DEFAULT_CURRENCY_NAME);
+
+        if (currency.validator) {
+            return currency.validator.isValidAddress(address, currency, networkType);
+        }
+
+        throw new Error('Missing validator for currency: ' + currencyNameOrSymbol);
+    },
+};
+
+},{"./currencies":18}],24:[function(require,module,exports){
 var cryptoUtils = require('./crypto/utils');
 var baseX = require('base-x');
 
@@ -5961,22 +5978,5 @@ module.exports = {
     }
 };
 
-},{"./crypto/utils":17,"base-x":1}],24:[function(require,module,exports){
-var currencies = require('./currencies');
-
-var DEFAULT_CURRENCY_NAME = 'bitcoin';
-
-module.exports = {
-    validate: function (address, currencyNameOrSymbol, networkType) {
-        var currency = currencies.getByNameOrSymbol(currencyNameOrSymbol || DEFAULT_CURRENCY_NAME);
-
-        if (currency.validator) {
-            return currency.validator.isValidAddress(address, currency, networkType);
-        }
-
-        throw new Error('Missing validator for currency: ' + currencyNameOrSymbol);
-    },
-};
-
-},{"./currencies":18}]},{},[24])(24)
+},{"./crypto/utils":17,"base-x":1}]},{},[23])(23)
 });

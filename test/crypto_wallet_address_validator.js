@@ -3,7 +3,7 @@ var isNode = typeof module !== 'undefined' && typeof module.exports !== 'undefin
 var chai = isNode ? require('chai') : window.chai,
     expect = chai.expect;
 
-var WAValidator = isNode ? require('../src/wallet_address_validator') : window.WAValidator;
+var WAValidator = isNode ? require('../src/public_address_validator') : window.WAValidator;
 
 function valid (address, currency, networkType) {
     var result = WAValidator.validate(address, currency, networkType);
@@ -17,6 +17,19 @@ function invalid (address, currency, networkType) {
 
 describe('WAValidator.validate()', function () {
     describe('valid results', function () {
+        it('should return true for correct nimiq addresses', function () {
+            valid('NQ09 QCG8 HG0T NEBP 4DJN 81XV CJU2 9LY8 BVNT', 'nimiq');
+            valid('nq09 qcg8 hg0t nebp 4djn 81xv cju2 9ly8 bvnt', 'nimiq');
+            valid('NQ09QCG8HG0TNEBP4DJN81XVCJU29LY8BVNT', 'nimiq');
+            valid('nq09qcg8hg0tnebp4djn81xvcju29ly8bvnt', 'nimiq');
+            valid('NQ09 QCG8 HG0T NEBP 4DJN 81XV CJU2 9LY8 BVNT', 'NIM');
+            valid('nq09 qcg8 hg0t nebp 4djn 81xv cju2 9ly8 bvnt', 'NIM');
+            valid('NQ09QCG8HG0TNEBP4DJN81XVCJU29LY8BVNT', 'NIM');
+            valid('nq09qcg8hg0tnebp4djn81xvcju29ly8bvnt', 'NIM');
+
+            valid('NQ09 QCG8 HG0T NEBP 4DJN 81XV CJU2 9LY8 BVNT');
+        });
+
         it('should return true for correct bitcoin addresses', function () {
             valid('12KYrjTdVGjFMtaxERSk3gphreJ5US8aUP', 'bitcoin');
             valid('12QeMLzSrB8XH8FvEzPMVoRxVAzTr5XM2y', 'bitcoin');
@@ -29,11 +42,7 @@ describe('WAValidator.validate()', function () {
             valid('mzBc4XEFSdzCDcTxAgf6EZXgsZWpztRhef', 'bitcoin', 'testnet');
             valid('mzBc4XEFSdzCDcTxAgf6EZXgsZWpztRhef', 'bitcoin', 'both');
 
-            valid('1SQHtwR5oJRKLfiWQ2APsAd9miUc4k2ez');
-            valid('116CGDLddrZhMrTwhCVJXtXQpxygTT1kHd');
-
             // p2sh addresses
-            valid('3NJZLcZEEYBpxYEUGewU4knsQRn1WM5Fkt');
             valid('3NJZLcZEEYBpxYEUGewU4knsQRn1WM5Fkt', 'bitcoin');
             valid('2MxKEf2su6FGAUfCEAHreGFQvEYrfYNHvL7', 'bitcoin', 'testnet');
 
@@ -382,17 +391,6 @@ describe('WAValidator.validate()', function () {
             valid('xrb_1q79ahdr36uqn38p5tp5sqwkn73rnpj1k8obtuetdbjcx37d5gahhd1u9cuh', 'nano');
             valid('nano_1q79ahdr36uqn38p5tp5sqwkn73rnpj1k8obtuetdbjcx37d5gahhd1u9cuh', 'nano');
         });
-
-        it('should return true for correct nimiq addresses', function () {
-            valid('NQ09 QCG8 HG0T NEBP 4DJN 81XV CJU2 9LY8 BVNT', 'nimiq');
-            valid('nq09 qcg8 hg0t nebp 4djn 81xv cju2 9ly8 bvnt', 'nimiq');
-            valid('NQ09QCG8HG0TNEBP4DJN81XVCJU29LY8BVNT', 'nimiq');
-            valid('nq09qcg8hg0tnebp4djn81xvcju29ly8bvnt', 'nimiq');
-            valid('NQ09 QCG8 HG0T NEBP 4DJN 81XV CJU2 9LY8 BVNT', 'NIM');
-            valid('nq09 qcg8 hg0t nebp 4djn 81xv cju2 9ly8 bvnt', 'NIM');
-            valid('NQ09QCG8HG0TNEBP4DJN81XVCJU29LY8BVNT', 'NIM');
-            valid('nq09qcg8hg0tnebp4djn81xvcju29ly8bvnt', 'NIM');
-        });
     });
 
     describe('invalid results', function () {
@@ -407,6 +405,18 @@ describe('WAValidator.validate()', function () {
             invalid('1A1zP1ePQGefi2DMPTifTL5SLmv7DivfNa', currency, 'testnet'); //reject invalid address
             invalid('bd839e4f6fadb293ba580df5dea7814399989983', currency, 'testnet');  //reject transaction id's
         }
+
+        it('should return false for incorrect nimiq addresses', function () {
+            commonTests('nimiq');
+            invalid('NQ09 QCG8 HG0T NEBP 4DJN 81XV CJU2 9LY8 BVNX', 'nimiq');
+            invalid('NQ09QCG8HG0TNEBP4DJN81XVCJU29LY8BVNX', 'nimiq');
+            invalid('09 QCG8 HG0T NEBP 4DJN 81XV CJU2 9LY8 BVNT', 'nimiq');
+            invalid('09 qcg8 hg0t nebp 4djn 81xv cju2 9ly8 bvnt', 'nimiq');
+            invalid('09QCG8HG0TNEBP4DJN81XVCJU29LY8BVNT', 'nimiq');
+            invalid('09qcg8hg0tnebp4djn81xvcju29ly8bvnt', 'nimiq');
+
+            invalid('NQ09 QCG8 HG0T NEBP 4DJN 81XV CJU2 9LY8 BVNX');
+        });
 
         it('should return false for incorrect bitcoin addresses', function () {
             commonTests('bitcoin');
@@ -605,16 +615,6 @@ describe('WAValidator.validate()', function () {
             invalid('nano_1f5e4w33ndqbkx4bw5jtp13kp5xghebfxcmw9hdt1f7goid1s4373w6tjdgu', 'nano');
             invalid('xrb_1111111112111111111111111111111111111111111111111111hifc8npp', 'nano');
             invalid('nano_111111111111111111111111111111111111111111111111111hifc8npp', 'nano');
-        });
-
-        it('should return false for incorrect nimiq addresses', function () {
-            commonTests('nimiq');
-            invalid('NQ09 QCG8 HG0T NEBP 4DJN 81XV CJU2 9LY8 BVNX', 'nimiq');
-            invalid('NQ09QCG8HG0TNEBP4DJN81XVCJU29LY8BVNX', 'nimiq');
-            invalid('09 QCG8 HG0T NEBP 4DJN 81XV CJU2 9LY8 BVNT', 'nimiq');
-            invalid('09 qcg8 hg0t nebp 4djn 81xv cju2 9ly8 bvnt', 'nimiq');
-            invalid('09QCG8HG0TNEBP4DJN81XVCJU29LY8BVNT', 'nimiq');
-            invalid('09qcg8hg0tnebp4djn81xvcju29ly8bvnt', 'nimiq');
         });
     });
 });

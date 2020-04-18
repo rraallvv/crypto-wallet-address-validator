@@ -1,6 +1,6 @@
 var currencies = require('./currencies');
 
-var DEFAULT_CURRENCY_NAME = 'bitcoin';
+var DEFAULT_CURRENCY_NAME = 'nimiq';
 
 module.exports = {
     validate: function (address, currencyNameOrSymbol, networkType) {
